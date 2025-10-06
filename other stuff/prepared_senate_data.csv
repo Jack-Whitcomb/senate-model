@@ -1,0 +1,5 @@
+number of row,state,pollster,start_date,end_date,entry.date.time..et.,n_obs,poll_pop,poll_mode,rep_pct,dem_pct,other,undecided,pollster.url,source.url,partisan,affiliation,dem_2party_share,n_democrat,n_two_share,day,state_lean,state_id,pollster_id,poll_mode_id,poll_pop_id
+1.0,OH,Emerson,2025-08-18,2025-08-19,2026-09-03T12:14:00Z,1000.0,Registered Voters,Internet,49.5,44.0,,6.5,https://google.com,https://google.com,Nonpartisan,None,0.47058823529411764,470,935,0,0.5044270107879046,3,2,1,2
+2.0,OH,BGSU,2025-04-18,2025-04-24,2026-09-03T12:14:00Z,800.0,Registered Voters,Live Phone,49.0,46.0,5.0,,https://google.com,https://google.com,Nonpartisan,None,0.4842105263157895,387,760,117,0.5044270107879046,3,1,2,2
+4.0,NC,PPP,2025-03-04,2025-03-05,2026-09-03T12:14:00Z,662.0,Registered Voters,Live Phone,43.0,47.0,,9.0,https://google.com,https://google.com,Nonpartisan,None,0.5222222222222223,345,595,167,0.48345937458412447,2,3,2,2
+3.0,MA,WCVB-TV/Amherst,2025-02-14,2025-02-20,2026-09-03T12:14:00Z,700.0,Likely Voters,Live Phone,33.0,35.0,,,https://google.com,https://google.com,Nonpartisan,None,0.5147058823529411,360,476,180,0.652922089367804,1,4,2,1
