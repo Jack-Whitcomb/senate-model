@@ -1,0 +1,28 @@
+The following conceptual description was used to create an early version of the model.
+
+
+[Create and provide the referenced csvs before providing this prompt.]
+
+Attached is a file describing polling averages for each week for Senate races from 2006 to 2024, along with the actual results and whether the Republican was the incumbent (previous_biweekly_polling_averages_with_incumbency.csv). I want you to write an R script that does the following:
+
+1. Calculate the polling errors for each row of data. These are (rep_actual - weighted_rep), called rep_polling_error, and (dem_actual - weighted_dem), called dem_polling_error.
+2. Add national polling errors to each row of data. rep_national_polling_error is the average of all values of rep_polling_error with the same year and week_number as a given row. dem_national_polling_error is similarly the average of all values of dem_polling_error with the same year and week_number as a given row.
+3. For each of the 62 weeks before election day, starting with week 62, estimate the probability distributions of the national polling errors. That is, estimate a probability density function describing the likelihood that dem_national_polling_error takes on values in different ranges, and do the same for rep_national_polling_error. If a value of week_number has fewer than ten observations, replace its probability density function with the probability density function generated from the next highest week number for which a probability density function exists. We will be using these PDFs for simulations of election results later, taking random draws from them.
+4. For each of the 62 weeks before election day, calculate the state-level polling errors. These are the differences between national_polling_error and polling_error. Call this variable state_polling_error.
+5. For each of the 62 weeks before election day, estimate the probability distribution of the state polling error. That is, estimate a probability density function describing the likelihood that state_polling_error takes on values in different ranges. As before, if a value of week_number has fewer than ten observations of state_polling_error, replace its probability density function with the probability density function generated from the next highest week number for which a probability density function exists.
+6. Regress rep_actual on rep_avg + rep_incumbent. Call this rep_regression. Regress dem_actual on dem_avg + -1*rep_incumbent. Call this dem_regression.
+7. Establish a dataframe called priors describing the prior Republican and Democratic vote shares (in a Bayesian sense) for the 2026 Senate elections as the previous vote shares in presidential elections. Do this by reading presidential_priors.csv, which includes only the states that will be having US Senate elections in 2026.
+8. Establish a dataframe for estimated 2026 vote shares by day and state. The header should be state, week, rep_estimate, dem_estimate, other_estimate.
+
+These should be Bayesian estimates of their vote shares. Begin with rep_prior, dem_prior, and other_prior from the dataframe labeled priors. Each week should have an updated estimate using polling averages from 2026_Senate_polling_averages.csv. Be prepared to *not* update in case there is no polling average. Keep in mind that the priors are going to be more accurate until the last 12 weeks of an election year.
+9. Simulate the 2026 Senate elections given current polling averages.
+
+In each simulation, first take a random draw from the estimated distribution of the national polling error for the current week. Add this error to the estimated vote shares in each state. Then, for each state, take a random draw from the estimated distribution of state polling errors for the current week, and add this error to the estimated vote shares. Determine who won in each state and the seat total for Republicans. Then determine whether Republicans won 19 or more seats and retained control of the chamber. Repeat this simulation 13,783 times.
+
+When done, produce a histogram of seat totals and the percentage of simulations in which Republicans won 19 or more seats, retaining control of the Senate.
+
+Notable problems:
+- Incumbency data is made up and incorrect
+- Probability distribution functions are calculated without controlling for % undecided. If there are few undecided voters the PDF for weighted_dem should be symmetrical around zero or close to symmetrical, while if there are many it should be centered at a positive number (which it is). Can't account for fluctuations in the share of voters who are undecided, as things stand, so we're assuming an average amount of undecided voters.
+- Should probably force the PDFs to have a single peak rather than letting them do whatever.
+- Shouldn't have used the week format for the polling averages for previous races.
